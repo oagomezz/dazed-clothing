@@ -1,8 +1,8 @@
 import React from 'react'
-import './categories.styles.scss'
-import Category from '../category/category'
+import Category from '../../components/category/category'
+import '../../components/categories/categories.styles.scss'
 
-const Categories = () => {
+const Home = () => {
     const categories = [
         {
           "id": 1,
@@ -34,10 +34,10 @@ const Categories = () => {
 return (
     <div className='categories-container'>
       {categories.map((category) => 
-        <Category category={category} />
+        <Category key={category.id} category={category} />
       )}
     </div>
   )
 }
 
-export default Categories
+export default Home
