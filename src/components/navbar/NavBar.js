@@ -1,9 +1,14 @@
-import { Fragment } from 'react'
-import './navbar.styles.scss'
-import { ReactComponent as DazedLogo } from '../../assets/crown.svg'
+import { Fragment, useContext } from 'react'
 import { Outlet, Link } from 'react-router-dom'
 
+import { ReactComponent as DazedLogo } from '../../assets/crown.svg'
+import { UserContext } from '../../contexts/user.context'
+
+import './navbar.styles.scss'
+import { signOutUser } from '../../utils/firebase.utils'
+
 const NavBar = () => {
+    const { currentUser } = useContext(UserContext)
 
 const links =  [
     {
@@ -14,7 +19,7 @@ const links =  [
     {
         id: 2,
         title: 'Sign In',
-        url: 'sign_in'
+        url: 'auth'
     },
     {
         id: 3,
@@ -22,20 +27,27 @@ const links =  [
         url: 'cart'
     },
 ]
+if(currentUser != null){
+    links[1].title = 'Sign Out'
+}
+
 return (
     <Fragment>
-        <div className='navigation'>
-            <Link className='logo-container' to={'./'}>
-                <DazedLogo className='logo'/>
-            </Link>
-            <div className='nav-links-container'>
-            {links.map((link) => {
-                return <Link key={link.id} className='nav-link' to={`/${link.url}`}>{link.title}</Link>
-            })}
-            </div>
+    <div className='navigation'>
+        <Link className='logo-container' to={'./'}>
+            <DazedLogo className='logo'/>
+        </Link>
+        <div className='nav-links-container'>
+            <Link className='nav-link' to='./shop'>Shop</Link>
+            { currentUser ? (
+                <span onClick={signOutUser} className='nav-link'>Sign Out</span> )
+             : <Link className='nav-link' to='./auth'>Sign In</Link>
+            }  
+            <Link  className='nav-link' to='./cart'>Cart</Link>
         </div>
-        < Outlet />
-    </Fragment>
+    </div>
+    < Outlet />
+</Fragment>
 )
 }
 
