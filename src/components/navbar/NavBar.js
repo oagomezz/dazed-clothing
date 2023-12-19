@@ -1,35 +1,19 @@
 import { Fragment, useContext } from 'react'
 import { Outlet, Link } from 'react-router-dom'
 
+import CartIcon from '../cart-icon/cart-icon.component'
+import CartDropdown from '../cart-dropdown/cart-dropdown.component'
+
 import { ReactComponent as DazedLogo } from '../../assets/crown.svg'
 import { UserContext } from '../../contexts/user.context'
+import { CartContext } from '../../contexts/cart.context'
 
 import './navbar.styles.scss'
 import { signOutUser } from '../../utils/firebase.utils'
 
 const NavBar = () => {
     const { currentUser } = useContext(UserContext)
-
-const links =  [
-    {
-        id: 1,
-        title: 'Shop',
-        url: 'shop'
-    },
-    {
-        id: 2,
-        title: 'Sign In',
-        url: 'auth'
-    },
-    {
-        id: 3,
-        title: 'Cart',
-        url: 'cart'
-    },
-]
-if(currentUser != null){
-    links[1].title = 'Sign Out'
-}
+    const { isOpen } = useContext(CartContext)
 
 return (
     <Fragment>
@@ -43,8 +27,9 @@ return (
                 <span onClick={signOutUser} className='nav-link'>Sign Out</span> )
              : <Link className='nav-link' to='./auth'>Sign In</Link>
             }  
-            <Link  className='nav-link' to='./cart'>Cart</Link>
+            <CartIcon/>
         </div>
+        { isOpen && <CartDropdown />}
     </div>
     < Outlet />
 </Fragment>

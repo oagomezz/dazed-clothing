@@ -3,6 +3,7 @@ import NavBar from './components/navbar/NavBar'
 import { Route, Routes } from 'react-router-dom'
 import Home from './routes/home/home.js'
 import Authentication from './routes/authentication/authentication.js'
+import Shop from './routes/shop/shop.component.js'
 
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={ <NavBar /> }>
           <Route index  element={ <Home /> }/>
+          <Route path='/shop' element={ <Shop /> }/>
           <Route path='/auth'  element={ < Authentication /> }/>
         </Route>
       </Routes>
